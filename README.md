@@ -14,7 +14,7 @@ Este projeto faz parte da **Fase 2**, onde o foco é demonstrar o progresso téc
 ## 👥 Equipe
 - **Pessoa A:** Setup & Infra (CI, branches, estrutura de pastas)  
 - **Pessoa B:** Backend (modelos, endpoints, testes e criptografia)  
-- **Pessoa C:** Documentação, Evidências e Apresentação *(Lucas Henrique)*  
+- **Pessoa C:** Documentação, Evidências  *(Lucas Henrique)*  
 
 ---
 
