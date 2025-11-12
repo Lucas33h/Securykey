@@ -11,6 +11,7 @@ Preparar demonstração do estado do projeto e entregar evidências de progresso
 ## Evidências (links e prints)
 - PR Pessoa A: #
 - PR Pessoa B: #
+- **PR Pessoa C (Documentação e CI):** [Link do PR Pessoa C (Evidências)]( https://github.com/Lucas33h/Securykey/pull/1)                         
 - Print Trello final: docs/imagens/trello_final.png
 - Print CI: docs/imagens/ci_pass.png
 - Prints Postman / curl: docs/imagens/postman.png
