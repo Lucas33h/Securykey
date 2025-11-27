@@ -57,4 +57,6 @@ Este projeto faz parte da **Fase 2**, onde o foco é demonstrar o progresso téc
 
 **Desenvolvido por:** Lucas Henrique (Pessoa C)  
 
+## Histórico: Fase 3 entregue.
+
 
