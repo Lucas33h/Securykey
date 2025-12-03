@@ -1,0 +1,33 @@
+{
+  "report": {
+    "total_files": 14,
+    "files": [
+      "chave_seguranca/__pycache__/app.cpython-311.pyc",
+      "chave_seguranca/__pycache__/auth.cpython-311.pyc",
+      "chave_seguranca/__pycache__/database.cpython-311.pyc",
+      "chave_seguranca/__pycache__/models.cpython-311.pyc",
+      "chave_seguranca/app.py",
+      "chave_seguranca/auth.py",
+      "chave_seguranca/database.py",
+      "chave_seguranca/models.py",
+      "chave_seguranca/requirements.txt/Requiremnts.Txt",
+      "chave_seguranca/routes/__pycache__/users.cpython-311.pyc",
+      "chave_seguranca/routes/credentials.py",
+      "chave_seguranca/routes/users.py",
+      "chave_seguranca/tests/test_login.py",
+      "chave_seguranca/tests/test_signup.py"
+    ],
+    "preview": {
+      "chave_seguranca/app.py": "from fastapi import FastAPI\nfrom routes import users, credentials\nfrom database import Base, engine\n\napp = FastAPI(title=\"Chave de Segurança\")\n\nBase.metadata.create_all(bind=engine)\n\napp.include_router(users.router)\napp.include_router(credentials.router)\n",
+      "chave_seguranca/routes/__pycache__/users.cpython-311.pyc": "**Could not read file ('utf-8' codec can't decode byte 0xa7 in position 0: invalid start byte)**",
+      "chave_seguranca/routes/credentials.py": "from fastapi import APIRouter\n\nrouter = APIRouter()\n\n@router.get(\"/credentials\")\ndef list_credentials():\n    return [\n        {\"site\": \"github.com\", \"usuario\": \"arthur\", \"senha\": \"***\"}\n    ]\n",
+      "chave_seguranca/routes/users.py": "from fastapi import APIRouter, Depends, HTTPException\nfrom database import SessionLocal\nfrom models import User\nfrom auth import hash_password, verify_password, create_token\n\nrouter = APIRouter()\n\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n\n@router.post(\"/signup\")\ndef signup(email: str, password: str, db=Depends(get_db)):\n    if db.query(User).filter_by(email=email).first():\n        raise HTTPException(400, \"Email já cadastrado\")\n\n    user = User(email=email, password_hash=hash_password(password))\n    db.add(user)\n    db.commit()\n    return {\"message\": \"Usuário criado com sucesso\"}\n\n@router.post(\"/login\")\ndef login(email: str, password: str, db=Depends(get_db)):\n    user = db.query(User).filter_by(email=email).first()\n\n    if not user or not verify_password(password, user.password_hash):\n        raise HTTPException(401, \"Credenciais inválidas\")\n\n    token = create_token(user.id)\n    return {\"token\": token}\n",
+      "chave_seguranca/tests/test_login.py": "def test_login(client):\n    response = client.post(\"/login\", params={\n        \"email\": \"teste@example.com\",\n        \"password\": \"123456\"\n    })\n    assert response.status_code == 200\n    assert \"token\" in response.json()\n",
+      "chave_seguranca/tests/test_signup.py": "def test_signup(client):\n    response = client.post(\"/signup\", params={\n        \"email\": \"teste@example.com\",\n        \"password\": \"123456\"\n    })\n    assert response.status_code == 200\n"
+    }
+  },
+  "pytest": {
+    "ran": true,
+    "output": "\u001b[31mE\u001b[0m\u001b[31mE\u001b[0m\u001b[31m                                                                       [100%]\u001b[0m\n==================================== ERRORS ====================================\n\u001b[31m\u001b[1m_________________________ ERROR at setup of test_login _________________________\u001b[0m\nfile /mnt/data/Chave_seguranca_extracted/chave_seguranca/tests/test_login.py, line 1\n  def test_login(client):\n\u001b[31mE       fixture 'client' not found\u001b[0m\n\u001b[31m>       available fixtures: _session_event_loop, _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, chave_seguranca/tests/test_login.py::<event_loop>, cov, ddspan, ddtracer, doctest_namespace, event_loop, event_loop_policy, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, include_metadata_in_junit_xml, json_metadata, metadata, monkeypatch, no_cover, patch_all, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory\u001b[0m\n\u001b[31m>       use 'pytest --fixtures [testpath]' for help on them.\u001b[0m\n\n/mnt/data/Chave_seguranca_extracted/chave_seguranca/tests/test_login.py:1\n\u001b[31m\u001b[1m________________________ ERROR at setup of test_signup _________________________\u001b[0m\nfile /mnt/data/Chave_seguranca_extracted/chave_seguranca/tests/test_signup.py, line 1\n  def test_signup(client):\n\u001b[31mE       fixture 'client' not found\u001b[0m\n\u001b[31m>       available fixtures: _session_event_loop, _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, chave_seguranca/tests/test_signup.py::<event_loop>, cov, ddspan, ddtracer, doctest_namespace, event_loop, event_loop_policy, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, include_metadata_in_junit_xml, json_metadata, metadata, monkeypatch, no_cover, patch_all, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory\u001b[0m\n\u001b[31m>       use 'pytest --fixtures [testpath]' for help on them.\u001b[0m\n\n/mnt/data/Chave_seguranca_extracted/chave_seguranca/tests/test_signup.py:1\n\u001b[36m\u001b[1m=========================== short test summary info ============================\u001b[0m\n\u001b[31mERROR\u001b[0m chave_seguranca/tests/test_login.py::\u001b[1mtest_login\u001b[0m\n\u001b[31mERROR\u001b[0m chave_seguranca/tests/test_signup.py::\u001b[1mtest_signup\u001b[0m\n\u001b[31m\u001b[31m\u001b[1m2 errors\u001b[0m\u001b[31m in 0.22s\u001b[0m\u001b[0m\n\n/home/sandbox/.local/lib/python3.11/site-packages/ddtrace/vendor/psutil/_pslinux.py:527: RuntimeWarning: 'sin' and 'sout' swap memory stats couldn't be determined and were set to 0 ([Errno 2] No such file or directory: '/proc/vmstat')\n  warnings.warn(msg, RuntimeWarning)\n"
+  }
+}
